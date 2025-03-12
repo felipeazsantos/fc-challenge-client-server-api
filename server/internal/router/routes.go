@@ -16,6 +16,7 @@ func NewServer() *server {
 
 func (s *server) Run() error {
 	mux := s.configureRoutes()
+	fmt.Println("Server running on port", getenv.ServerPort)
 	return http.ListenAndServe(fmt.Sprintf(":%d", getenv.ServerPort), mux)
 }
 
