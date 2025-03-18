@@ -59,5 +59,5 @@ func GetUSDBRLQuotation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte(quotationResponse.USDBRL.Bid))
+	json.NewEncoder(w).Encode(quotationResponse.USDBRL)
 }
