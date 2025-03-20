@@ -9,25 +9,14 @@ import (
 	"time"
 
 	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/getenv"
+	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/model"
 )
 
 type QuotationResponse struct {
-	USDBRL USDBRL `json:"USDBRL"`
+	USDBRL model.USDBRL `json:"USDBRL"`
 }
 
-type USDBRL struct {
-	Code       string `json:"code"`
-	Codein     string `json:"codein"`
-	Name       string `json:"name"`
-	High       string `json:"high"`
-	Low        string `json:"low"`
-	VarBid     string `json:"varBid"`
-	PctChange  string `json:"pctChange"`
-	Bid        string `json:"bid"`
-	Ask        string `json:"ask"`
-	Timestamp  string `json:"timestamp"`
-	CreateDate string `json:"create_date"`
-}
+
 
 func GetUSDBRLQuotation(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(getenv.QuotationApiTimeout*uint64(time.Millisecond)))
