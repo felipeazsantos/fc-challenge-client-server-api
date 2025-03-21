@@ -10,6 +10,7 @@ import (
 
 	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/getenv"
 	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/model"
+	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/repository"
 )
 
 type QuotationResponse struct {
@@ -48,5 +49,14 @@ func GetUSDBRLQuotation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
+	err = repository.QuotationRepository.InsertQuotation(&quotationResponse.USDBRL)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error while inserting quotation into database: %s", err.Error()), http.StatusInternalServerError)
+		return
+	}
+
+
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(quotationResponse.USDBRL)
 }

@@ -42,18 +42,18 @@ func GetDB() (*sql.DB, error) {
 
 func createQuotationTable() error {
 	sql := `CREATE TABLE IF NOT EXISTS quotation (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		code TEXT NOT NULL,
-		code_in TEXT NOT NULL,
-		name TEXT NOT NULL,
-		high TEXT NOT NULL,
-		low TEXT NOT NULL,
-		var_bid TEXT NOT NULL,
-		pct_change TEXT NOT NULL,
-		bid TEXT NOT NULL,
-		ask TEXT NOT NULL,
-		timestamp TEXT NOT NULL,
-		create_date TEXT NOT NULL
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				code TEXT NOT NULL,
+				code_in TEXT NOT NULL,
+				name TEXT NOT NULL,
+				high TEXT NOT NULL,
+				low TEXT NOT NULL,
+				var_bid TEXT NOT NULL,
+				pct_change TEXT NOT NULL,
+				bid TEXT NOT NULL,
+				ask TEXT NOT NULL,
+				timestamp TEXT NOT NULL,
+				create_date TEXT NOT NULL
 		)`
 
 	
