@@ -1,6 +1,7 @@
 package getenv
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 
@@ -12,6 +13,7 @@ var (
 	QuotationApiTimeout  uint64
 	DatabaseTimeout      uint64
 	ServerPort           uint64
+	ServerUrl			 string
 )
 
 func LoadConfig() error {
@@ -36,6 +38,8 @@ func LoadConfig() error {
 	if err != nil {
 		return err
 	}
+
+	ServerUrl = fmt.Sprintf("%s:%d", os.Getenv("SERVER_HOST"), ServerPort)
 
 	return nil
 }

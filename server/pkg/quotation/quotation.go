@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/dto"
 	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/getenv"
 	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/model"
 	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/repository"
@@ -56,7 +57,10 @@ func GetUSDBRLQuotation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	responseDto := dto.QuotationDto{
+		Bid: quotationResponse.USDBRL.Bid,
+	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(quotationResponse.USDBRL)
+	json.NewEncoder(w).Encode(responseDto)
 }
