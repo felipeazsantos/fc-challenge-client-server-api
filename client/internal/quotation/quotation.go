@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/felipeazsantos/fc-challenge-client-server-api/client/internal/dto"
@@ -45,13 +46,25 @@ func MakeRequestOnServer() error {
 		return err
 	}
 
-	// TODO: O client.go terá que salvar a cotação atual em um arquivo "cotacao.txt" no formato: Dólar: {valor}	
-	saveQuotationOnTxtFile(&quotation)
+	err = saveQuotationOnTxtFile(&quotation)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
 
 func saveQuotationOnTxtFile(quotation *dto.QuotationDto) error {
+	file, err := os.OpenFile("cotacao.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	_, err = file.WriteString(fmt.Sprintf("Dólar: %s", quotation.Bid))
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
