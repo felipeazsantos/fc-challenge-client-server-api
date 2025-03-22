@@ -16,7 +16,7 @@ import (
 )
 
 func MakeRequestOnServer() error {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(getenv.ClientTimeOut))
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(getenv.ClientTimeOut * uint64(time.Millisecond)))
 	defer cancel()
 
 	url := fmt.Sprintf("%s/cotacao", getenv.ServerUrl)
@@ -61,7 +61,7 @@ func saveQuotationOnTxtFile(quotation *dto.QuotationDto) error {
 	}
 	defer file.Close()
 
-	_, err = file.WriteString(fmt.Sprintf("Dólar: %s", quotation.Bid))
+	_, err = file.WriteString(fmt.Sprintf("Dólar: %s\n", quotation.Bid))
 	if err != nil {
 		return err
 	}

@@ -23,7 +23,7 @@ func LoadConfig() (err error) {
 		return
 	}
 
-	ServerUrl = fmt.Sprintf("%s:%s", os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))
+	ServerUrl = fmt.Sprintf("http://%s:%s", os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))
 
 	return
 }

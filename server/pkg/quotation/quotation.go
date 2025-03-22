@@ -3,8 +3,10 @@ package quotation
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"time"
 
@@ -18,8 +20,6 @@ type QuotationResponse struct {
 	USDBRL model.USDBRL `json:"USDBRL"`
 }
 
-
-
 func GetUSDBRLQuotation(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(getenv.QuotationApiTimeout*uint64(time.Millisecond)))
 	defer cancel()
@@ -32,6 +32,9 @@ func GetUSDBRLQuotation(w http.ResponseWriter, r *http.Request) {
 
 	response, err := http.DefaultClient.Do(req)
 	if err != nil {
+		if errors.Is(err, context.DeadlineExceeded) {
+			log.Printf("error context timeout while insert quotation into database")
+		}
 		http.Error(w, fmt.Sprintf("error when making the request to the quotation api: %s", err.Error()), http.StatusInternalServerError)
 		return
 	}
@@ -49,7 +52,6 @@ func GetUSDBRLQuotation(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, fmt.Sprintf("error while unmarshalling the body response into go struct: %s", err.Error()), http.StatusInternalServerError)
 		return
 	}
-
 
 	err = repository.QuotationRepository.InsertQuotation(&quotationResponse.USDBRL)
 	if err != nil {

@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"errors"
+	"log"
 	"time"
 
 	"github.com/felipeazsantos/fc-challenge-client-server-api/server/internal/database"
@@ -55,6 +57,9 @@ func (q *quotationRepository) InsertQuotation(quotation *model.USDBRL) error {
 		quotation.CreateDate,
 	)
 	if err != nil {
+		if errors.Is(err, context.DeadlineExceeded) {
+			log.Printf("error context timeout while insert quotation into database")
+		}
 		return err
 	}
 
